@@ -1,7 +1,11 @@
 {
-  "name": "ably-nextjs-fundamentals-kit",
+  "name": "patient-form",
   "version": "0.1.0",
-  "private": true,
+  "author": {
+    "name": "Dmitry Klishev",
+    "email": "dmitry.klishev@gmail.com",
+    "url": "https://etsbox.com"
+  },
   "scripts": {
     "dev": "next dev",
     "dev:turbo": "next dev --turbo",

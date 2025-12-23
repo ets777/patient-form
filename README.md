@@ -1,62 +1,81 @@
-# Ably serverless WebSockets and Next.js fundamentals starter kit
+# Patient form
 
-![Ably serverless WebSockets and Next.js fundamentals starter kit demo](media/ably-nextjs.png)
+Simple patient form synchronized to staff view.
 
-## Description
+## Setup
 
-This [Ably](https://ably.com?utm_source=github&utm_medium=github-repo&utm_campaign=GLB-2211-ably-nextjs-fundamentals-kit&utm_content=ably-nextjs-fundamentals-kit&src=GLB-2211-ably-nextjs-fundamentals-kit-github-repo) and [Next.js](https://nextjs.org) fundamentals starter kit demonstrates using some of the Ably's core functionality with Next.js. You can build features and use cases upon these fundamentals such as notifications, activity streams, chat, realtime visualisations and dashboards, and collaborative multiplayer experiences.
+1. Run `npm install`
+1. Create `.env.local` file with `ABLY_API_KEY`. To get the API key:
+  1.1. Go to [Ably](https://ably.com/)
+  1.1. Sign Up
+  1.1. Create a project
+  1.1. Go to API Keys
+  1.1. Create a new API Key
+  1.1. Copy the key to `ABLY_API_KEY` value
+1. Run `npm run dev`
 
-The Ably fundamentals demonstrated within this repo are:
+## Project Structure
 
-- [Token Authentication](https://ably.com/docs/realtime/authentication?utm_source=github&utm_medium=github-repo&utm_campaign=GLB-2211-ably-nextjs-fundamentals-kit&utm_content=ably-nextjs-fundamentals-kit&src=GLB-2211-ably-nextjs-fundamentals-kit-github-repo#token-authentication) - authenticate and establish a persistent bi-direction connection to the Ably platform.
-- [Pub/Sub (Publish/Subscribe)](https://ably.com/docs/realtime/channels?utm_source=github&utm_medium=github-repo&utm_campaign=GLB-2211-ably-nextjs-fundamentals-kit&utm_content=ably-nextjs-fundamentals-kit&src=GLB-2211-ably-nextjs-fundamentals-kit-github-repo) - publish messages on channels and subscribe to channels to receive messages.
-- [Presence](https://ably.com/docs/realtime/presence?utm_source=github&utm_medium=github-repo&utm_campaign=GLB-2211-ably-nextjs-fundamentals-kit&utm_content=ably-nextjs-fundamentals-kit&src=GLB-2211-ably-nextjs-fundamentals-kit-github-repo) - keep track of devices that are present on a channel. This is great for tracking if a device is online or offline or indicating if a user is in a chat room when using Ably for Chat.
-- [History](https://ably.com/docs/realtime/history?utm_source=github&utm_medium=github-repo&utm_campaign=GLB-2211-ably-nextjs-fundamentals-kit&utm_content=ably-nextjs-fundamentals-kit&src=GLB-2211-ably-nextjs-fundamentals-kit-github-repo) - Retrieve a history of messages that have been published to a channel.
+Folders:
 
-The project uses the following components:
+- `components` - shared components
+  - `Sidebar.tsx` - component for main menu and logo
+  - `MenuItem.tsx` - component for main menu item
+- `app`
+  - `staff-form` - page with staff view
+  - `token` - route for Ably connection
+  - `page.tsx` - patient form (home page)
 
-- [Next.js](https://nextjs.org), a flexible React framework that gives you building blocks to create fast web applications.
-- [Ably](https://ably.com?utm_source=github&utm_medium=github-repo&utm_campaign=GLB-2211-ably-nextjs-fundamentals-kit&utm_content=ably-nextjs-fundamentals-kit&src=GLB-2211-ably-nextjs-fundamentals-kit-github-repo), for realtime messaging at scale.
+## Design
 
-## Building & running locally
+### Desktop
 
-### Prerequisites
+The patient form consists of three columns. The sidebar is located on the left. The main goal here is to fit the form in one screen to avoid vertical scroll.
 
-1. [Sign up](https://ably.com/signup?utm_source=github&utm_medium=github-repo&utm_campaign=GLB-2211-ably-nextjs-fundamentals-kit&utm_content=ably-nextjs-fundamentals-kit&src=GLB-2211-ably-nextjs-fundamentals-kit-github-repo) or [log in](https://ably.com/login?utm_source=github&utm_medium=github-repo&utm_campaign=GLB-2211-ably-nextjs-fundamentals-kit&utm_content=ably-nextjs-fundamentals-kit&src=GLB-2211-ably-nextjs-fundamentals-kit-github-repo) to ably.com, and [create a new app and copy the API key](https://faqs.ably.com/setting-up-and-managing-api-keys?utm_source=github&utm_medium=github-repo&utm_campaign=GLB-2211-ably-nextjs-fundamentals-kit&utm_content=ably-nextjs-fundamentals-kit&src=GLB-2211-ably-nextjs-fundamentals-kit-github-repo).
-2. To deploy to [Vercel](https://vercel.com), create a Vercel account.
+![desktop-screenshot](./img/screenshots/desktop.png)
 
-### Configure the app
+### Tablet
 
-Create a `.env.local` file with your Ably API key:
+To save space the sidebar is moved to the top of the page. Logo becomes smaller to save space. First six fields are divided into two columns to fit the page width. Last six fields are still in three columns, because they usualy have short text.
 
-```bash
-echo "ABLY_API_KEY={YOUR_ABLY_API_KEY_HERE}">.env
-```
+![tablet-screenshot](./img/screenshots/tablet.png)
 
-### Run the Next.js app
+### Phone
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+The logo and the main menu are aligned vertically to fit the page width. All inputs are arranged in one column.
 
-## Deploy on Vercel
+![tablet-screenshot](./img/screenshots/phone.png)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Component Architecture
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fably-labs%2Fably-nextjs-fundamentals-kit&env=ABLY_API_KEY)
+There are two main pages in the project:
 
-## Contributing
+1. PatientForm
+1. StaffForm
 
-Want to help contributing to this project? Have a look at our [contributing guide](CONTRIBUTING.md)!
+### PatientForm
 
-## More info
+It's the root page of the project. The main purpose of the component is to get and send the patient form data via the Ably `patient-form-client` channel.
 
-- [Join the Ably Discord server](https://discord.gg/q89gDHZcBK)
-- [Follow Ably on Twitter](https://twitter.com/ablyrealtime)
-- [Use the Ably SDKs](https://github.com/ably/)
-- [Visit the Ably website](https://ably.com?utm_source=github&utm_medium=github-repo&utm_campaign=GLB-2211-ably-nextjs-fundamentals-kit&utm_content=ably-nextjs-fundamentals-kit&src=GLB-2211-ably-nextjs-fundamentals-kit-github-repo)
+The patient form structure is described in `FormState` type.
 
----
-[![Ably logo](https://static.ably.dev/badge-black.svg?ably-nextjs-fundamentals-kit-github-repo)](https://ably.com?utm_source=github&utm_medium=github-repo&utm_campaign=GLB-2211-ably-nextjs-fundamentals-kit&utm_content=ably-nextjs-fundamentals-kit&src=GLB-2211-ably-nextjs-fundamentals-kit-github-repo)
+The form has four states (`FillingState` type):
+
+1. `pristine` - form wasn't touched
+1. `filling` - the patient wrote something within last few seconds
+1. `inactive` - the patient stopped writing for a few seconds. The amount of time before the state becomes `inactive` after the last input is stored in `INACTIVE_DELAY`
+1. `submitted` - the patient pressed `submit` button and the form was successfully sent
+
+### StaffForm
+
+It's the page for staff view of the patient form. The main purpose of the component is to get the patient form data from the Ably `patient-form-client` channel, and show it to the staff in real time.
+
+## Real-Time Synchronization Flow
+
+![real-life-synchronization-flow](./img/real-life-synchronization-flow.png)
+
+First, both of the forms get access token via HTTP request to `https://rest.ably.io`. With this token they establish websocket connection and listen for changes.
+
+The patient form send changes through channel `patient-form-updates` by calling `channel.publish()`.
+
+The staff form subscribes to the changes with `useChannel`. Every change runs callback function.
